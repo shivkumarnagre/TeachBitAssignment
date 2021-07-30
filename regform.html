@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
 	<link rel="stylesheet" href="regform.css">
 </head>
@@ -22,76 +23,134 @@
 
 
 	
-<div class="form" class="container"  >
+<div class="form" class="container" onsubmit="return validation()"  >
 		<img src="images/proicon.jfif" class="avatar">
 		<h1>Create New Employee</h1>
 		<form name="f1" >
 			<div class="row g-3">
 				<div class="col">
-					<!-- <i class="bi bi-person-badge" id="bi"></i> -->
 					<p>Employee ID:</p>
-				  <input type="text" class="form-control" placeholder="Employee ID" aria-label="Employee ID">
+				  <input type="text" id="empid" class="form-control" placeholder="Employee ID" aria-label="Employee ID">
+				  <i class="bi bi-asterisk" id="empida"></i>
+				  <span id="empid2" class="text-danger font-weight-bold "></span>
 				</div>
-				<div class="col">
-					<!-- <i class="bi bi-person-circle" id="bi" ></i> -->
+				<div class="col">					
 					<p>Employee Name:</p>
-				  <input type="text" class="form-control" placeholder="Employee name" aria-label="Employee name">
+				  <input type="text" id="empfullname" class="form-control" placeholder="Employee name" aria-label="Employee name" >
+				  <i class="bi bi-asterisk" id="empfnamea"></i>
+				  <span id="empfullname2" class="text-danger font-weight-bold "></span>
 				</div>
 			</div>
 			<div class="row g-3">
 				<div class="col">
 					<p>First Name:</p>
-				  <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+				  <input type="text" id="empfname" class="form-control" placeholder="First name" aria-label="First name">
+				  <span id="empfname2" class="text-danger font-weight-bold "></span>
 				</div>
 				<div class="col">
 					<p>Last Name:</p>
-				  <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+				  <input type="text" id="emplname"  class="form-control" placeholder="Last name" aria-label="Last name">
+				  <span id="emplname2" class="text-danger font-weight-bold "></span>
 				</div>
 			</div>
-
-			
             <div class="row g-3">
 				<div class="col">
 					<p>DOB:</p>
-					<input type="date" name="birthday" placeholder="Enter DOB" required>
+					<input type="date" class="datepicker" id="dobdate"  name="birthdate" placeholder="Enter DOB"  >					
+					<i class="bi bi-asterisk" id="dob"></i>
+					<span id="dobspan" class="text-danger font-weight-bold "></span>
 				</div>
 					<div class="col">
 						<p>DOJ:</p>
-						<input type="date" name="joindate" placeholder="Enter DOJ"  required>
+						<input type="date" id="dojdate" name="joindate" placeholder="Enter DOJ" >
+						<i class="bi bi-asterisk" id="dob"></i>
+						<span id="dojspan" class="text-danger font-weight-bold "></span>
 					</div>
 			</div>
-			
 			<div class="row">
 			<div class="col">
 			<p>Marital Status:</p>
-			<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+			<select class="form-select form-select-sm"  aria-label=".form-select-sm example">
 				<option selected>Select</option>
 				<option value="1">Married</option>
 				<option value="2">Unmarried</option>
-			</select>
+				<option value="3">Widowed</option>
+				<option value="3">Divorced</option>
+			</select>			
 			</div>
 				<div class="col">	
 						<p>Anniversary Date:</p>
-						<input type="date" name="anniversary" placeholder="Enter DOB" required>		  
+						<input  type="date" name="anniversary" id="anniver"  placeholder="Enter Anniversary Date" >		  
 				</div>
 			</div>
+
+			<script>
+				var todayDate=new Date();
+				var month=todayDate.getMonth()+1;
+				var year =todayDate.getUTCFullYear();
+				var tdate = todayDate.getDate();
+				if(month < 10){
+					month="0"+ month;
+				}
+				if(tdate<10){
+					tdate="0"+tdate;
+				}
+				var maxDate=year+"-"+month+"-"+tdate;
+				document.getElementById('dobdate').setAttribute("max",maxDate);
+				document.getElementById('dojdate').setAttribute("max",maxDate);
+				document.getElementById('anniver').setAttribute("max",maxDate);
+				// console.log(maxDate);
+
+				document.getElementById("dobdate").addEventListener("change", function() {
+				var input = this.value;
+				var dateEntered = new Date(input);
+				// console.log(input); 
+				// console.log(dateEntered); 
+				var month1=dateEntered.getMonth()+1;
+				// console.log(month1);
+				var year1 =dateEntered.getUTCFullYear();
+				// console.log(year1);
+				var tdate1 = dateEntered.getDate();
+				// console.log(tdate1);
+				if(month1 < 10){
+					month1="0"+ month1;
+				}
+				if(tdate1<10){
+					tdate1="0"+tdate1;
+				}
+				var minDate=year1+"-"+month1+"-"+tdate1;
+				// console.log(minDate);
+				document.getElementById('dojdate').setAttribute("min",minDate);
+				document.getElementById('anniver').setAttribute("min",minDate);
+				});
+
+			</script>
+
+
+
+
 			<div class="col">
 				<p>Designation:</p>
-				<input type="text" class="form-control" placeholder="Enter Designation" aria-label="Designation">
+				<input type="text" id="designat" class="form-control" placeholder="Enter Designation" aria-label="Designation">
+				<i class="bi bi-asterisk" id="designation"></i>
+				<span id="desg" class="text-danger font-weight-bold "></span>		
 			</div>			
 			<div class="col">
 			<p>Password:</p>
-			<input type="password" name="password" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-            <!-- </div> -->
-			<!-- <div class="col"> -->
-			<p>Confirm Password:</p>			
-			<!-- <input type="cpassword" name="password" placeholder="Confirm Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required> -->
-			<input type="password" name="cpassword" id="cpassword" placeholder="Re-Enter Password" required>
+			<input type="password" name="password" id="password" placeholder="Enter Password">
+			<i class="bi bi-asterisk" id="passw"></i>			
 			<i  class="bi bi-eye-slash" aria-hidden="true"  id="togglePassword" style="font-size: 20px;"></i>
+			<span id="password2" class="text-danger font-weight-bold "></span>
+			<p>Confirm Password:</p>			
+			<input type="password" name="cpassword" id="cpassword1" placeholder="Re-Enter Password" >
+			<i class="bi bi-asterisk" id="cpassw"></i>
+			<span id="cpasswd" ></span>
+			
 			</div>
+
 			<script>
 				const togglePassword = document.querySelector('#togglePassword');
-				const password = document.querySelector('#cpassword');
+				const password = document.querySelector('#password');
  
 				togglePassword.addEventListener('click', function (e) {
 				// toggle the type attribute
@@ -103,8 +162,106 @@
 					 
 				</script> 
 			
-            <input type="submit" value="Register" name="submit" id="submit" onclick="accept1(); return validatepass()">	
+            <input type="submit" value="Register" name="submit" id="submit" onclick="popup()">	
+			<div class="container signin">
+				<p style="font-size: 15px; margin-top: 20px;">Already have an account? <a href="file:///C:/Users/Shiv/OneDrive/Desktop/gitdemo/login.html" style="color: blue; font-size: 13px;">Sign in</a></p>
+			</div>
+			<script>
+				/* function popup(){
+				swal("Good job!", "You clicked the button!", "success");
+				}*/
+				function validation(){
+					var empid1 = document.getElementById('empid').value;
+					var empname = document.getElementById('empfullname').value;
+					var empfrname = document.getElementById('empfname').value;
+					var empltname = document.getElementById('emplname').value;
+					var desig = document.getElementById('designat').value;
+					var pwd = document.getElementById('password').value;
+					var dobd = document.getElementById('dobdate').value;
+					var dojd = document.getElementById('dojdate').value;										
+					var paswd=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+					var correct_way=/^[A-Za-z]+$/;
+					var cpwd = document.getElementById('cpassword1').value;
+
+					if(empid1 == ""){
+						document.getElementById('empid2').innerHTML="**Please fill Employee ID";						
+						return false;
+					}
+					if((empid1.length<=4) || (empid1.length >= 7)){
+						document.getElementById('empid2').innerHTML="**Please fill the correct Employee ID";						
+						return false;
+					}
+					if(empname == ""){
+						document.getElementById('empfullname2').innerHTML="**Please fill  Full Name";						
+						return false;
+					}
+					if(empfrname==""){
+						true;
+					}
+					else if (empfrname.match(correct_way)){
+						true;
+					}
+						else{
+						document.getElementById('empfname2').innerHTML="**No special symbols are allowed";						
+						return false;
+						}
+					if(empltname==""){
+						true;
+					}
+					else if (empltname.match(correct_way)){
+						true;
+					}
+						else{
+						document.getElementById('emplname2').innerHTML="**No special symbols are allowed";						
+						return false;
+						}
+
+					if(dobd == ""){
+						document.getElementById('dobspan').innerHTML="**Please fill DOB";						
+						return false;
+					}
+					if(dojd == ""){
+						document.getElementById('dojspan').innerHTML="**Please fill DOJ";						
+					   	return false;
+					}
+
+					if(desig == ""){
+						document.getElementById('desg').innerHTML="**Please fill the Designation";						
+						return false;
+					}
+					if(pwd == ""){
+						document.getElementById('password2').innerHTML="**Please fill the Password";						
+						return false;
+					}	
+					if(pwd.match(paswd)) {	
+							// return true;
+						}
+							else{
+								document.getElementById('password2').innerHTML="**Password should be 8 to 15 characters which contain at least one numeric digit and a special character";
+								return false;
+						}
+						if (cpwd ==""){
+							document.getElementById('cpasswd').innerHTML="**Please fill the Password";	
+							document.getElementById('cpasswd').style.color="red";					
+						  return false;
+
+						}
+						else if (cpwd != pwd){
+							document.getElementById('cpasswd').innerHTML="**Password does not match";	
+							document.getElementById('cpasswd').style.color="#EF5350";					
+							return false;
+
+						}
+						else if (cpwd == pwd){							
+							document.getElementById('cpasswd').innerHTML="**Matching!!";	
+							document.getElementById('cpasswd').style.color="#00E676";					
+							return true;
+
+						}											
+													
+				}
+			</script>
 </form>
-	
+</div>	
 </body>
 </html>
